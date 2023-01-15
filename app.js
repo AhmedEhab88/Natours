@@ -20,6 +20,7 @@ const tours = JSON.parse(
 app.get('/api/v1/tours', (req, res) => {
   res.status(200).json({
     status: 'success',
+    count: tours.length,
     data: {
       tours: tours,
     },
