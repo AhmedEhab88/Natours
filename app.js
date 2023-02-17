@@ -6,7 +6,9 @@ const toursRouter = require('./routes/tourRoutes');
 const app = express();
 
 // MIDDLEWARES
-app.use(morgan('dev'));
+if (process.env.NODE_ENV === 'development nodemon server.js') {
+  app.use(morgan('dev'));
+}
 app.use(express.json());
 app.use(express.static(`${__dirname}/public`));
 
