@@ -17,6 +17,18 @@ exports.checkID = (req, res, next, val) => {
     next();
 };
 
+exports.checkBody = (req, res, next) => {
+
+    if (!req.body.hasOwnProperty('name') || !req.body.hasOwnProperty('duration')) {
+        return res.status(400).json({
+            status: 'fail',
+            message: 'Invalid Request!'
+        });
+    }
+
+    next();
+};
+
 exports.getTours = (req, res) => {
     res.status(200).json({
         status: 'success',
@@ -47,7 +59,7 @@ exports.createTour = (req, res) => {
     tours.push(newTour);
 
     fs.writeFile(
-        `${__dirname}/dev-data/data/tours-simple.json`,
+        `${__dirname}/../dev-data/data/tours-simple.json`,
         JSON.stringify(tours),
         (err) => {
             res.status(201).json({
