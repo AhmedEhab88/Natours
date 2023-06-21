@@ -40,8 +40,7 @@ exports.getTours = async (req, res) => {
         } else {
             //If user did not specify sort parameter,
             //Sort by CreatedAt by default
-
-            query = query.sort('-createdAt');
+            query = query.sort('_id');
         }
 
         //3)Field Limiting (Projection)
