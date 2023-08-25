@@ -40,6 +40,10 @@ const tourSchema = new mongoose.Schema(
             trim: true,
             required: [true, 'A tour must have a summary'],
         },
+        secretTour: {
+            type: Boolean,
+            default: false,
+        },
         description: {
             type: String,
             trim: true,
@@ -81,6 +85,22 @@ tourSchema.pre('save', function (next) {
 //     console.log(doc);
 //     next();
 // });
+
+//QUERY MIDDLEWARE
+// tourSchema.pre('find', function (next) {
+tourSchema.pre(/^find/, function (next) {
+    // this uses a regular expression to match an query that starts with "find"
+    this.find({ secretTour: { $ne: true } });
+
+    this.start = Date.now();
+    next();
+});
+
+tourSchema.post(/^find/, function (docs, next) {
+    // this uses a regular expression to match an query that starts with "find"
+    console.log(`Query took ${Date.now() - this.start} millseconds!`);
+    next();
+});
 
 const Tour = mongoose.model('Tour', tourSchema);
 
